@@ -1,0 +1,8 @@
+{
+  "image": {
+    "image_path":  "images/*.jpeg"
+  },
+  "cleaning": {
+    "punctuation": "!#$%&\\'()*+:;<=>?[\\\\]^`{|}~"
+  }
+}

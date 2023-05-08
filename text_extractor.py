@@ -58,34 +58,6 @@ def main(config_path):
 
     log.info('done')
 
-def convert_to_spacy(data):
-    allCardsData = []
-    group = data.groupby(by='id')
-    items = group.groups.keys()
-    for item in items:
-        grouparray = group.get_group(item)[['text','tag']].values
-        content=''
-        annotations = {'entities':[]}
-        start = 0
-        end = 0
-        for text,label in grouparray:
-            text = str(text)
-            stringLenght = len(text) + 1
-
-            start = end
-            end = start + stringLenght
-
-            if label != 'O':
-                annot = (start,end-1,label)
-                annotations['entities'].append(annot)
-
-            content = content + text + ' '
-
-        cardData = (content,annotations)
-        allCardsData.append(cardData)
-    
-    return allCardsData
-
 def extract_text_from_img(imgPaths):
     allBusinessCard = pd.DataFrame(columns=['id','text'])
 
@@ -151,6 +123,34 @@ def cleanText(txt, punctuation):
     removepunctuation = removewhitespace.translate(tablePunctuation)
     
     return str(removepunctuation)
+
+def convert_to_spacy(data):
+    allCardsData = []
+    group = data.groupby(by='id')
+    items = group.groups.keys()
+    for item in items:
+        grouparray = group.get_group(item)[['text','tag']].values
+        content=''
+        annotations = {'entities':[]}
+        start = 0
+        end = 0
+        for text,label in grouparray:
+            text = str(text)
+            stringLenght = len(text) + 1
+
+            start = end
+            end = start + stringLenght
+
+            if label != 'O':
+                annot = (start,end-1,label)
+                annotations['entities'].append(annot)
+
+            content = content + text + ' '
+
+        cardData = (content,annotations)
+        allCardsData.append(cardData)
+    
+    return allCardsData
 
 if __name__ == "__main__": 
        
